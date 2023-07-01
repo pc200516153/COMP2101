@@ -5,7 +5,12 @@ cat << EOF
 CPU Report
 ==========
 
-CPU information :lscpu
+CPU Manufacturer:$(lscpu |grep -w 'Vendor ID' | {print$2})
+CPU archtecture:$(lscpu |grep -w 'Architecture')
+CPU core count:
+CPU  maximum speed:
+Size of Cachs:$(lscpu |grep -w 'Caches')
+
 
 
 EOF 
@@ -22,19 +27,27 @@ computer manufacturer:(sudo dmidecode -s system-manufacturer)
 computer description or model :$(sudo dmidecode -s system-product-name)
 computer serial number:$(sudo dmidecode -s system-serial-number)
 
+EOF
+
+}
+
 # this function is to find os information
 function osinfo {
 cat<<EOF
 Os Report
 =========
-Linux distro:
-Distro version:
+Operating System name and version= $(hostnamectl | grep -w 'Operating Sys>
+
+
 EOF
 }
 
 # this function is to find  ram information
 function raminfo {
-cat info
+cat<<EOF
 RAM Report
 =========
+Root Filesysytem Free Space= $(df -h | grep -w '/' |awk '{print$4}')
 
+EOF
+}
